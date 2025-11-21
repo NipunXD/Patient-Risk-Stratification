@@ -1,0 +1,9 @@
+# Ignore model files
+*.bin
+*.safetensors
+/model/
+/venv/
+__pycache__/
+.env
+.next/
+node_modules/

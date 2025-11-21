@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Report: Patient Risk Stratification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f3e8;
+            color: #333;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-8">
+            <h1 class="text-4xl font-bold text-center" style="color: #a4a18c;">Project Report: Patient Risk Stratification</h1>
+            <p class="text-xl text-center mt-2" style="color: #b9b7a7;">An Interactive Report on a Clinical AI Analyzer</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Section 1: The Problem & Solution -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: #a4a18c;">The Challenge: Unlocking Clinical Insights</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Problem Description -->
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h3 class="text-2xl font-semibold mb-4">The High Cost of Readmissions</h3>
+                    <p class="text-lg mb-4" style="color: #333;">
+                        Unplanned hospital readmissions are a major burden on the healthcare system, leading to billions in annual costs and indicating potential gaps in patient care. Identifying "high-risk" patients before discharge is a critical strategy for intervention.
+                    </p>
+                    <p class="text-lg" style="color: #333;">
+                        The richest context—co-morbidities, symptom severity, and social factors—is often "locked" away in unstructured free-text, like a doctor's discharge summary.
+                    </p>
+                </div>
+
+                <!-- Solution Architecture Diagram (HTML/CSS) -->
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h3 class="text-2xl font-semibold mb-6 text-center">Our System Architecture</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                        
+                        <div class="text-center p-4 rounded-lg" style="background-color: #e9e7dc;">
+                            <span class="text-4xl">🖥️</span>
+                            <h4 class="font-semibold mt-2">Next.js Frontend</h4>
+                            <p class="text-sm">User Interface</p>
+                        </div>
+
+                        <div class="font-bold text-2xl" style="color: #a4a18c;">&rarr;</div>
+
+                        <div class="text-center p-4 rounded-lg" style="background-color: #e9e7dc;">
+                            <span class="text-4xl">⚙️</span>
+                            <h4 class="font-semibold mt-2">Flask Backend API</h4>
+                            <p class="text-sm">Serves Model</p>
+                        </div>
+                        
+                        <div class="font-bold text-2xl" style="color: #a4a18c;">&rarr;</div>
+
+                        <div class="text-center p-4 rounded-lg" style="background-color: #e9e7dc;">
+                            <span class="text-4xl">🧠</span>
+                            <h4 class="font-semibold mt-2">ClinicalBERT</h4>
+                            <p class="text-sm">Risk Prediction</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Core Model Performance -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: #a4a18c;">Core Model Performance</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- 90% Accuracy Donut Chart -->
+                <div class="md:col-span-1 bg-white rounded-lg shadow-md p-8 flex flex-col justify-center items-center">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Qualitative Test Accuracy</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="accuracyDonutChart"></canvas>
+                    </div>
+                    <p class="text-lg mt-4 text-center">
+                        The model achieved **9/10 (90%) accuracy** on our qualitative test set, correctly identifying both high and low-risk patients from complex notes.
+                    </p>
+                </div>
+                
+                <!-- 10-Note Test Set Bar Chart -->
+                <div class="md:col-span-2 bg-white rounded-lg shadow-md p-8">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Test Note Risk Score Analysis</h3>
+                    <p class="text-center mb-4">This chart shows the model's predicted risk score for each of the 10 test notes. The color indicates the model's final verdict (High or Low Risk). Note 7 was the only incorrect prediction.</p>
+                    <div class="chart-container" style="height: 500px;">
+                        <canvas id="resultsBarChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: Key Insight - The "Note 7" Failure -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: #a4a18c;">Key Insight: A "Blind Spot" for Social Factors</h2>
+            <p class="text-xl text-center max-w-4xl mx-auto mb-8">
+                Our single failure (Note 7) was the most important finding. It revealed a critical limitation: the model is an expert **clinical analyst** but is "blind" to **Social Determinants of Health (SDoH)**.
+            </p>
+
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Analysis of Note 7: Model vs. Human</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- What the Model Saw -->
+                    <div class="p-6 rounded-lg" style="background-color: #e9e7dc; border-left: 5px solid #a4a18c;">
+                        <h4 class="text-xl font-semibold mb-2">What the Model "Saw" (Clinical Data)</h4>
+                        <ul class="list-disc list-inside space-y-1 mb-4">
+                            <li>Diagnosis: Syncope</li>
+                            <li>Finding: Orthostatic Hypotension</li>
+                            <li>Action: Meds Adjusted</li>
+                        </ul>
+                        <div class="text-center p-4 rounded" style="background-color: #d6d4c4;">
+                            <span class="text-lg font-semibold">Model Prediction:</span>
+                            <span class="text-2xl font-bold ml-2" style="color: #5a8c2f;">💚 Low Risk (25%)</span>
+                        </div>
+                    </div>
+                    
+                    <!-- What the Human Saw -->
+                    <div class="p-6 rounded-lg" style="background-color: #e9e7dc; border-left: 5px solid #a4a18c;">
+                        <h4 class="text-xl font-semibold mb-2">What a Human Sees (Social Data)</h4>
+                        <ul class="list-disc list-inside space-y-1 mb-4">
+                            <li>Age: 76 years old</li>
+                            <li>Social: **"Lives alone"**</li>
+                            <li>Social: **"Poor home support"**</li>
+                            <li>History: **"Fallen twice"**</li>
+                        </ul>
+                        <div class="text-center p-4 rounded" style="background-color: #d6d4c4;">
+                            <span class="text-lg font-semibold">Human Prediction:</span>
+                            <span class="text-2xl font-bold ml-2" style="color: #a43a3a;">🔴 High Risk</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Future Work & Conclusion -->
+        <section>
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: #a4a18c;">Future Work & Conclusion</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Future Work: Hybrid Model -->
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h3 class="text-2xl font-semibold mb-6 text-center">Proposed Future Work: Hybrid Model</h3>
+                    <p class="text-center mb-6">To address the "SDoH blind spot," the next step is to create a hybrid model. This model would combine the rich vector from ClinicalBERT with structured EMR data (like `lives_alone: true`) for a complete, holistic patient risk profile.</p>
+                    
+                    <!-- CORRECTED DIAGRAM: Reduced padding/fonts and added flex-wrap -->
+                    <div class="space-y-3">
+                        <!-- Step 1 -->
+                        <div class="flex items-center justify-center">
+                            <div class="text-center p-3 rounded-lg" style="background-color: #e9e7dc; flex-shrink: 0;">
+                                <span class="text-2xl">📝</span>
+                                <h4 class="font-medium text-sm mt-1">Clinical Note</h4>
+                            </div>
+                            <div class="font-bold text-xl mx-3" style="color: #a4a18c;">&rarr;</div>
+                            <div class="text-center p-3 rounded-lg" style="background-color: #e9e7dc;">
+                                <span class="text-2xl">🧠</span>
+                                <h4 class="font-medium text-sm mt-1">ClinicalBERT</h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="flex items-center justify-center pr-8"> <!-- Aligns the arrow with the box above -->
+                            <div class="font-bold text-xl" style="color: #a4a18c;">&darr;</div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <!-- This row will wrap on small screens -->
+                        <div class="flex items-center justify-center flex-wrap gap-y-2">
+                            <div class="text-center p-3 rounded-lg" style="background-color: #e9e7dc; flex-shrink: 0;">
+                                <span class="text-2xl">📊</span>
+                                <h4 class="font-medium text-sm mt-1">Structured Data</h4>
+                                <p class="text-xs">(e.g., "Lives Alone")</p>
+                            </div>
+                            <div class="font-bold text-xl mx-3" style="color: #a4a18c;">+</div>
+                            <div class="text-center p-3 rounded-lg" style="background-color: #d6d4c4;">
+                                <span class="text-xl">Vector</span> <!-- Made text smaller -->
+                                <h4 class="font-medium text-sm mt-1">Text Embedding</h4>
+                            </div>
+                            
+                            <!-- This arrow and the final box might wrap together, which is fine -->
+                            <div class="flex items-center mt-2 md:mt-0">
+                                <div class="font-bold text-xl mx-3" style="color: #a4a18c;">&rarr;</div>
+                                <div class="text-center p-3 rounded-lg" style="background-color: #a4a18c; color: white;">
+                                    <span class="text-2xl">🎯</span>
+                                    <h4 class="font-medium text-sm mt-1">Final Prediction</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END CORRECTED DIAGRAM -->
+                </div>
+
+                <!-- Conclusion -->
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h3 class="text-2xl font-semibold mb-4">Conclusion</h3>
+                    <p class="text-lg mb-4" style="color: #333;">
+                        This project was a complete success. We built a fully functional, end-to-end AI application that solves a real-world medical problem. We successfully:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-lg">
+                        <li>Identified and implemented a state-of-the-art NLP model (ClinicalBERT).</li>
+                        <li>Wrapped this "engine" in a robust, scalable Flask API.</li>
+                        <li>Designed and built a modern and professional Next.js frontend that is both visually clear and highly usable.</li>
+                        <li>Rigorously evaluated our model and identified its precise limitations, charting a clear path for future improvements.</li>
+                    </ul>
+                    <p class="text-lg mt-4" style="color: #333;">
+                        This project demonstrates the power of combining deep learning with thoughtful system design to create tools that can genuinely augment clinical decision-making.
+                    </s_p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 mt-12" style="background-color: #d6d4c4; color: #a4a18c;">
+        <p class="font-semibold">Project by Nipun Arora, Mohd Taha Saleem, Russy Gautam, & Saamarthya Raj</p>
+        <p class="text-sm">B.Tech Computer Science & Engineering</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Accuracy Donut Chart ---
+            const accuracyCtx = document.getElementById('accuracyDonutChart').getContext('2d');
+            new Chart(accuracyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct (9)', 'Incorrect (1)'],
+                    datasets: [{
+                        data: [90, 10],
+                        backgroundColor: [
+                            '#a4a18c', // Correct
+                            '#d6d4c4'  // Incorrect
+                        ],
+                        borderColor: '#f7f3e8',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: '90% Accuracy (9/10 Notes)'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- 2. Results Bar Chart ---
+            
+            // Data from the report table
+            const testNoteData = [
+                { summary: "1. Simple Appendectomy", score: 6, label: "Low Risk" },
+                { summary: "2. Elderly, CHF, SNF", score: 76, label: "High Risk" },
+                { summary: "3. Kidney Infection", score: 10, label: "Low Risk" },
+                { summary: "4. 'Stable' COPD", score: 62, label: "High Risk" },
+                { summary: "5. 'Ruled Out MI'", score: 12, label: "Low Risk" },
+                { summary: "6. Sepsis, ESRD, LTC", score: 81, label: "High Risk" },
+                { summary: "7. Social Factors", score: 25, label: "Low Risk" }, // The FAIL
+                { summary: "8. Elective Knee Surgery", score: 21, label: "Low Risk" },
+                { summary: "9. DKA, Non-compliant", score: 58, label: "High Risk" },
+                { summary: "10. Psych Admission", score: 18, label: "Low Risk" }
+            ];
+
+            // Helper function to process labels > 16 chars
+            const processLabel = (label) => {
+                if (label.length > 16) {
+                    // Simple split, for this dataset just splitting at the colon
+                    const parts = label.split(':');
+                    if (parts.length > 1) {
+                        return [parts[0] + ':', parts[1].trim()];
+                    }
+                    // Fallback for other long labels
+                    let middle = Math.floor(label.length / 2);
+                    let space = label.lastIndexOf(' ', middle);
+                    if (space === -1) space = middle;
+                    return [label.substring(0, space), label.substring(space + 1)];
+                }
+                return label;
+            };
+
+            const chartLabels = testNoteData.map(d => processLabel(d.summary));
+            const chartScores = testNoteData.map(d => d.score);
+            const chartColors = testNoteData.map(d => d.label === 'High Risk' ? 'rgba(164, 58, 58, 0.7)' : 'rgba(90, 140, 47, 0.7)');
+
+            const resultsCtx = document.getElementById('resultsBarChart').getContext('2d');
+            new Chart(resultsCtx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Predicted Risk Score (%)',
+                        data: chartScores,
+                        backgroundColor: chartColors,
+                        borderColor: testNoteData.map(d => d.label === 'High Risk' ? '#a43a3a' : '#5a8c2f'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Make it horizontal
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Risk Score (%)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                autoSkip: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+Services
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
