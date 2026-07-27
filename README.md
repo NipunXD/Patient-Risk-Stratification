@@ -1,10 +1,3 @@
-Here is a professional, highly-readable, and engineering-focused `README.md` for your **Patient Risk Stratification** project, tailored to highlight both the AI/ML depth and the production-grade system design you emphasized in your portfolio.
-
-You can copy and paste this directly into your GitHub repository.
-
-***
-
-```markdown
 # 🏥 Patient Risk Stratification
 
 An end-to-end AI application that predicts hospital readmission risk by analyzing unstructured clinical discharge notes. Built to unlock critical clinical insights locked in free-text and assist healthcare providers in identifying high-risk patients before discharge.
